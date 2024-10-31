@@ -7,3 +7,11 @@ export const TRANSACTIONS = [
   { date: '2024-10-20', amount: 150, status: 'Completed', id: 'faa67c97-58dc-41e0-b57f-c5ff73786499', type: 'Withdrawal' },
   { date: '2024-10-15', amount: 200, status: 'Pending', id: '95c9e516-704f-4d73-a6d1-edb2b00cb679' , type: 'Withdrawal'},
 ];
+
+export interface Transaction {
+  date: string;
+  amount: number;
+  status: string;
+  id: string;
+  type: string;
+}

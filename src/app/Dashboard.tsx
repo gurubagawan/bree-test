@@ -1,13 +1,4 @@
 "use client"; 
-
-interface Transaction {
-  date: string;
-  amount: number;
-  status: string;
-  id: string;
-  type: string;
-}
-
 const getCurrentDate = (): string => {
   const date = new Date();
   const year = date.getFullYear();
@@ -19,7 +10,8 @@ const getCurrentDate = (): string => {
 
 import React, { useEffect, useState } from 'react';
 import CashAdvanceModal from './Modal';
-import { TRANSACTIONS, USER_BALANCE } from './consts';
+import { TRANSACTIONS, USER_BALANCE, Transaction } from './consts';
+import { TransactionCard } from './TransactionCard';
 
 export default function Dashboard() {
   const [modalOpen, setOpen] = useState(false);
@@ -29,8 +21,6 @@ export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>(TRANSACTIONS);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [amountFilter, setAmountFilter] = useState<number | ''>('');
-
-
 
   const sumPendingDeposits = ()=> {
     return transactions
@@ -80,8 +70,8 @@ export default function Dashboard() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen text-black">
-      <div className="max-w-lg mx-auto bg-white rounded-lg shadow p-6">
-        <h2 className="text-3xl font-bold mb-4">Cash Advance Dashboard</h2>
+      <div className="max-w-lg mx-auto bg-slate-200 rounded-lg shadow p-6">
+        <h2 className="text-3xl font-bold mb-4">Account Dashboard</h2>
           <div className="mb-6 flex gap-4">
             <select
               value={statusFilter || ''}
@@ -116,11 +106,7 @@ export default function Dashboard() {
         <h3 onClick={handleClick} className="text-xl font-semibold mb-2">Recent Transactions</h3>
         <div className="space-y-3">
           {filteredTransactions.map((transaction) => (
-            <div key={transaction.id} className="p-4 bg-gray-50 rounded-lg text-black shadow hover:bg-gray-100 transition">
-              <p>Date: {transaction.date}</p>
-              <p>Amount: ${transaction.amount}</p>
-              <p>Status: <span className={`font-semibold ${transaction.status === 'Pending' ? 'text-yellow-500' : 'text-green-500'}`}>{transaction.status}</span></p>
-            </div>
+            <TransactionCard transaction={transaction} />
           ))}
         </div>
       </div>
