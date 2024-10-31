@@ -1,11 +1,20 @@
-// CashAdvanceModal.js
-import React, { useState } from 'react';
+import { useState } from 'react'
+import { MAX_AMOUNT } from './consts';
 
 export default function CashAdvanceModal({ onClose, addTransaction }: { onClose: () => void, addTransaction: (amount: string)=>void }) {
   const [amount, setAmount] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [errors , setErrors] = useState('');
 
   const handleRequest = () => {
+    if (parseInt(amount) > MAX_AMOUNT) {
+      setErrors(`The maximum amount you can request is $${MAX_AMOUNT}`);
+      return 
+    };
+    if (!amount) {
+      setErrors('Please enter an amount')
+      return 
+    };
     addTransaction(amount);
     setSubmitted(true);
   };
@@ -31,6 +40,11 @@ export default function CashAdvanceModal({ onClose, addTransaction }: { onClose:
               className="w-full mb-4 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter amount"
             />
+            {errors &&
+              <div className="mb-2 p-2 text-sm text-red-700 bg-red-100 border border-red-300 rounded">
+                {errors}
+              </div>
+            }
             <button
               onClick={handleRequest}
               className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"

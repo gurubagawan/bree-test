@@ -29,3 +29,5 @@ export const getCurrentDate = (): string => {
   
   return `${year}-${month}-${day}`;
 };
+
+export const MAX_AMOUNT = 1000
