@@ -1,24 +1,17 @@
 "use client"; 
-const getCurrentDate = (): string => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  
-  return `${year}-${month}-${day}`;
-};
 
 import React, { useEffect, useState } from 'react';
 import CashAdvanceModal from './Modal';
-import { TRANSACTIONS, USER_BALANCE, Transaction } from './consts';
+import { TRANSACTIONS, TransactionProps, getCurrentDate } from './consts';
 import { TransactionCard } from './TransactionCard';
+import { FilterBar } from './FilterBar';
 
 export default function Dashboard() {
   const [modalOpen, setOpen] = useState(false);
   const [balance, setBalance] = useState<number>(0);
   const [pendingDeposits, setPendingDeposits] = useState<number>(0);
   const [pendingWithdrawals, setPendingWithdrawals] = useState<number>(0);
-  const [transactions, setTransactions] = useState<Transaction[]>(TRANSACTIONS);
+  const [transactions, setTransactions] = useState<TransactionProps[]>(TRANSACTIONS);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [amountFilter, setAmountFilter] = useState<number | ''>('');
 
@@ -54,7 +47,7 @@ export default function Dashboard() {
   
 
   const addTransaction = (amount: string) => {
-    const transaction = { date: getCurrentDate(), amount: parseInt(amount), status: 'Pending', id: crypto.randomUUID(), type: 'Deposit' } as Transaction
+    const transaction = { date: getCurrentDate(), amount: parseInt(amount), status: 'Pending', id: crypto.randomUUID(), type: 'Deposit' } as TransactionProps
     setTransactions((prevTransactions) => [...prevTransactions, transaction]);
   }
 
@@ -72,24 +65,7 @@ export default function Dashboard() {
     <div className="p-6 bg-gray-100 min-h-screen text-black">
       <div className="max-w-lg mx-auto bg-slate-200 rounded-lg shadow p-6">
         <h2 className="text-3xl font-bold mb-4">Account Dashboard</h2>
-          <div className="mb-6 flex gap-4">
-            <select
-              value={statusFilter || ''}
-              onChange={(e) => setStatusFilter(e.target.value || null)}
-              className="px-3 py-2 border rounded w-full"
-            >
-              <option value="">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-            </select>
-            <input
-              type="number"
-              placeholder="Min Amount"
-              value={amountFilter}
-              onChange={(e) => setAmountFilter(e.target.value ? parseInt(e.target.value) : '')}
-              className="px-3 py-2 border rounded w-full"
-            />
-        </div>
+        <FilterBar setStatusFilter={setStatusFilter} statusFilter={statusFilter} amountFilter={amountFilter} setAmountFilter={setAmountFilter} />
         <h2 className="text-2xl font-bold mb-4">Available Balance: <span className={`text-${balance > 0 ? 'green' : 'red'}-600`}>${balance}</span></h2>
         <div className="flex justify-between">
           <p className="text-md mb-4">Pending Withdrawels: <span className="text-red-600">${pendingWithdrawals}</span></p>
@@ -106,7 +82,7 @@ export default function Dashboard() {
         <h3 onClick={handleClick} className="text-xl font-semibold mb-2">Recent Transactions</h3>
         <div className="space-y-3">
           {filteredTransactions.map((transaction) => (
-            <TransactionCard transaction={transaction} />
+            <TransactionCard transaction={transaction} key={transaction.id} />
           ))}
         </div>
       </div>

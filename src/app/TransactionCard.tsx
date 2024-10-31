@@ -1,12 +1,5 @@
-interface Transaction {
-  date: string;
-  amount: number;
-  status: string;
-  id: string;
-  type: string;
-}
-
-export const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
+import { TransactionProps } from './consts';
+export const TransactionCard = ({ transaction }: { transaction: TransactionProps }) => {
   console.log(transaction.amount);
   return (
     <div
