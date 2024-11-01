@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Run Development server with: 
 
 ```bash
 npm run dev
@@ -14,23 +14,9 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Most of my design decisions were based around simplicity. When it comes to finances I feel that its best to keep it simple and just have the information presented to you as cleanly as possible. I used Tailwind for CSS because its extremely versatile. It allowed me to focus less time on CSS and more on the actual implementation which I thought was more important. 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+At first I had the app display a static balance. But then I thought all the information is there for me, so why keep it that why? In a real life scenario this number would be dyanmic, so that's what I did. This required me to operate on the assumption that the account would start with $0 and all of the transactions are present- but the amount presented is the balance of all the transactions. After this was done, I realized it wasn't hard to simply use what I'd built to also show pending transactions. I essentially used my TRANSACTION const as a mock DB so if you play around with this you can see the balance updating. 
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If I had more time, I would have dedicated it to the code structure. I didn't focus on this too much as I felt that a clean UI and functionality were more important, but in a production environment I definitley would not put everything in my consts file but rather make a different file for each (IE a types file, a functions file, ETC). As well I'd put time into building unit tests which I intended to but I ran out of time. 
