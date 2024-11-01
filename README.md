@@ -17,7 +17,7 @@ Most of my design decisions were based around simplicity. When it comes to finan
 
 At first I had the app display a static balance. But then I thought all the information is there for me, so why keep it that why? In a real life scenario this number would be dyanmic, so that's what I did. This required me to operate on the assumption that the account would start with $0 and all of the transactions are present- but the amount presented is the balance of all the transactions. After this was done, I realized it wasn't hard to simply use what I'd built to also show pending transactions. I essentially used my TRANSACTION const as a mock DB so if you play around with this you can see the balance updating. 
 
-One thing that I want to point out is that I used the term's withdrawl and depoosit because I couldn't decide on verbiage. In terms of a cash advance app a deposit would be getting money (an advance) and a withdrawl would be paying it back or using it in some way.
+One thing that I want to point out is that I used the term's withdrawl and deposit because I couldn't decide on verbiage. In terms of a cash advance app a deposit would be getting money (an advance) and a withdrawal would be paying it back or using it in some way. My logic was that when you get money it is now avialable to you and when you pay it back it is no longer available to you from the POV of the app. 
 
 If I had more time, the things I would have dedicated it to are: 
 
