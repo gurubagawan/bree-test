@@ -59,7 +59,7 @@ export default function Dashboard() {
     const matchesStatus = statusFilter ? transaction.status === statusFilter : true;
     const matchesAmount = amountFilter ? transaction.amount >= amountFilter : true;
     return matchesStatus && matchesAmount;
-  });
+  }).slice(-5);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen text-black">
@@ -88,7 +88,7 @@ export default function Dashboard() {
       </div>
 
       {modalOpen && (
-        <CashAdvanceModal onClose={() => setOpen(false)} addTransaction={addTransaction} />
+        <CashAdvanceModal onClose={()=>setOpen(false)} addTransaction={addTransaction} />
       )}
     </div>
   );

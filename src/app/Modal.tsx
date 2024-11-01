@@ -1,30 +1,41 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
 import { MAX_AMOUNT } from './consts';
 
-export default function CashAdvanceModal({ onClose, addTransaction }: { onClose: () => void, addTransaction: (amount: string)=>void }) {
+export default function CashAdvanceModal({ onClose, addTransaction }: { onClose: () => void, addTransaction: (amount: string) => void }) {
   const [amount, setAmount] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [errors , setErrors] = useState('');
+  const [errors, setErrors] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    setShowModal(true);
+    return () => setShowModal(false);
+  }, []);
 
   const handleRequest = () => {
     if (parseInt(amount) > MAX_AMOUNT) {
       setErrors(`The maximum amount you can request is $${MAX_AMOUNT}`);
-      return 
-    };
+      return;
+    }
     if (!amount) {
-      setErrors('Please enter an amount')
-      return 
-    };
+      setErrors('Please enter an amount');
+      return;
+    }
     addTransaction(amount);
     setSubmitted(true);
   };
 
+  const handleClose = () => {
+    setShowModal(false);
+    setTimeout(onClose, 300);
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+    <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${showModal ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`bg-white rounded-lg shadow-lg p-6 max-w-md w-full transform transition-transform duration-300 ${showModal ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}>
         <button
           className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
-          onClick={onClose}
+          onClick={handleClose} 
         >
           &times;
         </button>
@@ -57,7 +68,7 @@ export default function CashAdvanceModal({ onClose, addTransaction }: { onClose:
             <h3 className="text-xl font-bold mb-4">Request Submitted</h3>
             <p className="mb-4">You have requested ${amount}. It will be processed shortly.</p>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
             >
               Close
